@@ -92,3 +92,81 @@
     --panel-radius: 16px;
     --drawer-width: 280px;
 }
+
+/* ============================================================
+   SHARED COMPONENTS
+   ============================================================ */
+
+/* iOS motion-permission explainer (built by the parallax script) */
+.motion-prompt {
+    position: fixed;
+    left: 50%;
+    bottom: 1rem;
+    transform: translateX(-50%) translateY(150%);
+    z-index: 50;
+    width: min(440px, calc(100vw - 2rem));
+    padding: 0.9rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    line-height: 1.45;
+    background: var(--inset-bg-strong);
+    -webkit-backdrop-filter: blur(var(--panel-blur));
+    backdrop-filter: blur(var(--panel-blur));
+    border: 1px solid var(--panel-border-strong);
+    border-radius: 14px;
+    box-shadow: var(--panel-shadow);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.motion-prompt.visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.motion-prompt p {
+    flex: 1 1 100%;
+    margin: 0;
+}
+
+.motion-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+.motion-prompt button {
+    font: inherit;
+    font-size: 0.88rem;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.motion-allow {
+    color: var(--accent);
+    background: var(--accent-tint);
+    border: 1px solid var(--accent-border);
+}
+
+.motion-allow:hover {
+    color: var(--accent-strong);
+    background: var(--accent-tint-strong);
+}
+
+.motion-dismiss {
+    color: var(--ink-dim);
+    background: transparent;
+    border: 1px solid var(--panel-border-strong);
+}
+
+.motion-dismiss:hover {
+    color: var(--ink);
+    border-color: var(--ink-dim);
+}

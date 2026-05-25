@@ -212,14 +212,59 @@ function setupParallax() {
 
     const start = () => window.addEventListener("deviceorientation", onTilt, { passive: true });
 
-    // iOS 13+ only delivers tilt after permission, requested on a user gesture
-    if (typeof DeviceOrientationEvent.requestPermission === "function") {
-        window.addEventListener("touchend", function request() {
-            DeviceOrientationEvent.requestPermission()
-                .then((state) => { if (state === "granted") start(); })
-                .catch(() => {});
-        }, { once: true });
-    } else {
+    // Android & others: tilt works with no permission prompt
+    if (typeof DeviceOrientationEvent.requestPermission !== "function") {
         start();
+        return;
     }
+
+    // iOS/Safari shows a system motion-access prompt — explain why first
+    const requestTilt = () => DeviceOrientationEvent.requestPermission()
+        .then((state) => { if (state === "granted") start(); })
+        .catch(() => {});
+
+    const choice = getMotionPref();
+    if (choice === "off") return;            // user opted out before
+    if (choice === "on") {                   // already granted — re-arm quietly on a tap
+        window.addEventListener("touchend", function rearm() { requestTilt(); }, { once: true });
+        return;
+    }
+    showMotionPrompt({
+        onAllow: () => { setMotionPref("on"); requestTilt(); },
+        onDismiss: () => { setMotionPref("off"); }
+    });
+}
+
+// ---- iOS motion-permission explainer --------------------------------------
+const MOTION_KEY = "sk-motion";
+function getMotionPref() {
+    try { return localStorage.getItem(MOTION_KEY); } catch (_) { return null; }
+}
+function setMotionPref(value) {
+    try { localStorage.setItem(MOTION_KEY, value); } catch (_) { /* ignore */ }
+}
+
+function showMotionPrompt({ onAllow, onDismiss }) {
+    if (document.querySelector(".motion-prompt")) return;
+
+    const card = document.createElement("div");
+    card.className = "motion-prompt";
+    card.setAttribute("role", "dialog");
+    card.setAttribute("aria-label", "Motion access");
+    card.innerHTML =
+        "<p>This site can use your device’s motion sensors purely for a subtle parallax " +
+        "background effect — nothing else.</p>" +
+        '<div class="motion-actions">' +
+        '<button type="button" class="motion-dismiss">No thanks</button>' +
+        '<button type="button" class="motion-allow">Enable</button>' +
+        "</div>";
+    document.body.appendChild(card);
+    requestAnimationFrame(() => card.classList.add("visible"));
+
+    const close = () => {
+        card.classList.remove("visible");
+        setTimeout(() => card.remove(), 350);
+    };
+    card.querySelector(".motion-allow").addEventListener("click", () => { onAllow(); close(); });
+    card.querySelector(".motion-dismiss").addEventListener("click", () => { onDismiss(); close(); });
 }
