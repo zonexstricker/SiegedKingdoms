@@ -1,40 +1,17 @@
 /* ============================================================
    Sieged Kingdoms — rules pages
    Frosted dark-grey glass design system
+   Colour tokens live in ../theme.css
    ============================================================ */
-
-:root {
-    --font-body: "Bitter", Georgia, serif;
-    --font-mono: "Source Code Pro", ui-monospace, monospace;
-
-    --panel-bg: rgba(28, 28, 32, 0.55);
-    --panel-blur: 16px;
-    --panel-border: rgba(255, 255, 255, 0.10);
-    --panel-border-strong: rgba(255, 255, 255, 0.16);
-    --panel-radius: 16px;
-    --panel-shadow: 0 14px 44px rgba(0, 0, 0, 0.45);
-
-    --ink: #eef0f2;
-    --ink-dim: #aeb2b9;
-
-    --accent: #7ef9ff;
-    --accent-soft: rgba(126, 249, 255, 0.10);
-    --accent-border: rgba(126, 249, 255, 0.40);
-    --accent-visited: #5db7bb;
-
-    --danger: #ff8c8c;
-
-    --minor: #fbf987;
-    --moderate: #faba82;
-    --severe: #fb7c7c;
-
-    --drawer-width: 280px;
-}
 
 *,
 *::before,
 *::after {
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -45,15 +22,26 @@ body {
     font-size: 18px;
     line-height: 1.65;
     color: var(--ink);
-    background: url('../images/background.png') no-repeat center center fixed;
-    background-size: cover;
+    background-color: var(--page-bg);
 }
 
+/* parallax background image — shifted by JS via --par-x / --par-y */
 body::before {
     content: "";
     position: fixed;
+    inset: -7%;
+    background: url('../images/background.png') center center / cover no-repeat;
+    transform: translate(var(--par-x, 0px), var(--par-y, 0px)) scale(1.14);
+    transition: transform 0.25s ease-out;
+    z-index: -2;
+    will-change: transform;
+}
+
+body::after {
+    content: "";
+    position: fixed;
     inset: 0;
-    background: linear-gradient(180deg, rgba(10, 10, 14, 0.30), rgba(10, 10, 14, 0.55));
+    background: linear-gradient(180deg, var(--veil-top), var(--veil-bottom));
     z-index: -1;
 }
 
@@ -70,7 +58,7 @@ a:visited {
 
 a:hover,
 a:active {
-    color: #b6fbff;
+    color: var(--accent-strong);
     text-decoration: underline;
 }
 
@@ -126,7 +114,7 @@ p {
 }
 
 .openbtn:hover {
-    background: rgba(60, 60, 66, 0.7);
+    background: var(--surface-hover);
     transform: translateY(-1px);
 }
 
@@ -145,11 +133,11 @@ p {
     max-width: 85vw;
     height: 100%;
     padding: 4.5rem 0 1.5rem;
-    background: rgba(14, 14, 18, 0.78);
+    background: var(--drawer-bg);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-right: 1px solid var(--panel-border);
-    box-shadow: 6px 0 40px rgba(0, 0, 0, 0.55);
+    box-shadow: 6px 0 40px rgba(var(--shadow-rgb), 0.55);
     overflow-y: auto;
     transform: translateX(-100%);
     transition: transform 0.32s ease;
@@ -180,11 +168,34 @@ p {
 
 .sidebar ul a:hover,
 .sidebar ul a:focus-visible {
-    color: #fff;
+    color: var(--white);
     background: var(--accent-soft);
     border-left-color: var(--accent);
     text-decoration: none;
     outline: none;
+}
+
+.sidebar a.active {
+    color: var(--white);
+    background: var(--accent-soft);
+    border-left-color: var(--accent);
+}
+
+/* nested table-of-contents links */
+.sidebar .toc-sub {
+    list-style: none;
+    margin: 2px 0 6px;
+    padding: 0;
+}
+
+.sidebar .toc-sub a {
+    padding: 0.45rem 1.4rem 0.45rem 2.5rem;
+    font-size: 0.92rem;
+    color: var(--ink-faint);
+}
+
+.sidebar .toc-sub a.active {
+    color: var(--white);
 }
 
 .closebtn {
@@ -208,8 +219,8 @@ p {
 }
 
 .closebtn:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.08);
+    color: var(--white);
+    background: var(--hairline-soft);
 }
 
 /* ---------- Backdrop (injected by JS) ---------- */
@@ -217,7 +228,7 @@ p {
     position: fixed;
     inset: 0;
     z-index: 35;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--backdrop);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.32s ease;
@@ -249,6 +260,11 @@ p {
     margin-bottom: 0;
 }
 
+/* clear the fixed menu button when jumping to an anchor */
+.main-content [id] {
+    scroll-margin-top: 1.5rem;
+}
+
 #top img {
     width: 100%;
     height: auto;
@@ -258,7 +274,7 @@ p {
 .rule {
     margin-top: 1.25rem;
     padding: 0.5rem 1.25rem 1.25rem;
-    background: rgba(12, 12, 14, 0.55);
+    background: var(--inset-bg-soft);
     border: 1px solid var(--panel-border);
     border-radius: 14px;
 }
@@ -290,7 +306,7 @@ p {
     font-family: var(--font-mono);
     font-size: 0.85rem;
     color: var(--ink);
-    background: rgba(40, 40, 46, 0.9);
+    background: var(--badge-bg);
     border: 1px solid var(--panel-border-strong);
     border-radius: 50%;
 }
@@ -316,12 +332,12 @@ td {
 }
 
 th {
-    background: rgba(18, 18, 22, 0.9);
+    background: var(--th-bg);
     font-weight: 700;
 }
 
 tbody tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--row-stripe);
 }
 
 tbody tr:hover {
@@ -357,7 +373,7 @@ ul li {
     text-align: center;
     margin: 1rem 0;
     padding: 0.85rem 1rem;
-    background: rgba(12, 12, 14, 0.8);
+    background: var(--inset-bg);
     border: 1px solid var(--panel-border);
     border-radius: 10px;
 }
@@ -376,7 +392,7 @@ ul li {
 }
 
 .highlight:hover {
-    color: #ffb3b3;
+    color: var(--danger-strong);
 }
 
 /* ---------- Glossary popup ---------- */
@@ -389,12 +405,12 @@ ul li {
     color: var(--ink);
     font-size: 0.95rem;
     line-height: 1.5;
-    background: rgba(20, 20, 24, 0.97);
+    background: var(--inset-bg-strong);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 140, 140, 0.35);
+    border: 1px solid var(--danger-border);
     border-radius: 12px;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 12px 36px rgba(var(--shadow-rgb), 0.6);
     animation: popup-fade 0.18s ease-out;
 }
 
@@ -418,6 +434,42 @@ ul li {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* ---------- Back-to-top button ---------- */
+.to-top {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 25;
+    width: 2.9rem;
+    height: 2.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: var(--ink);
+    cursor: pointer;
+    background: var(--panel-bg);
+    -webkit-backdrop-filter: blur(var(--panel-blur));
+    backdrop-filter: blur(var(--panel-blur));
+    border: 1px solid var(--panel-border-strong);
+    border-radius: 50%;
+    box-shadow: var(--panel-shadow);
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease;
+}
+
+.to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.to-top:hover {
+    background: var(--surface-hover);
 }
 
 /* ---------- Severity colours ---------- */
@@ -446,10 +498,15 @@ ul li {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
 
     .sidebar,
     .sidebar-backdrop,
-    .popup {
+    .popup,
+    .to-top,
+    body::before {
         transition: none;
         animation: none;
     }

@@ -26,6 +26,9 @@ const glossary = {
 document.addEventListener("DOMContentLoaded", () => {
     setupDrawer();
     setupGlossary();
+    setupScrollSpy();
+    setupBackToTop();
+    setupParallax();
 });
 
 // ---- Slide-in navigation drawer -------------------------------------------
@@ -103,4 +106,82 @@ function setupGlossary() {
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") hide();
     });
+}
+
+// ---- Highlight the section you're currently reading -----------------------
+function setupScrollSpy() {
+    const links = Array.from(document.querySelectorAll('.sidebar a[href^="#"]'));
+    const targets = links
+        .map((link) => {
+            const id = decodeURIComponent(link.getAttribute("href").slice(1));
+            const el = document.getElementById(id);
+            return el ? { link, el } : null;
+        })
+        .filter(Boolean);
+    if (targets.length < 2) return;
+
+    // order targets by their position in the document
+    targets.sort((a, b) =>
+        a.el.compareDocumentPosition(b.el) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1
+    );
+
+    const setActive = () => {
+        const line = 140; // px below the top edge
+        let current = null;
+        for (const t of targets) {
+            if (t.el.getBoundingClientRect().top - line <= 0) current = t;
+        }
+
+        links.forEach((l) => l.classList.remove("active"));
+        // don't highlight the "Go To Top" entry
+        if (current && current.link.getAttribute("href") !== "#top") {
+            current.link.classList.add("active");
+        }
+    };
+
+    setActive();
+    window.addEventListener("scroll", setActive, { passive: true });
+    window.addEventListener("resize", setActive, { passive: true });
+}
+
+// ---- Floating back-to-top button ------------------------------------------
+function setupBackToTop() {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "to-top";
+    btn.setAttribute("aria-label", "Back to top");
+    btn.textContent = "↑";
+    document.body.appendChild(btn);
+
+    btn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    const toggle = () => {
+        btn.classList.toggle("visible", window.scrollY > 400);
+    };
+    toggle();
+    window.addEventListener("scroll", toggle, { passive: true });
+}
+
+// ---- Background parallax --------------------------------------------------
+function setupParallax() {
+    const motionOK = window.matchMedia("(prefers-reduced-motion: reduce)").matches === false;
+    const finePointer = window.matchMedia("(pointer: fine)").matches;
+    if (!motionOK || !finePointer) return;
+
+    const strength = 14;
+    let pending = false;
+
+    window.addEventListener("mousemove", (event) => {
+        if (pending) return;
+        pending = true;
+        requestAnimationFrame(() => {
+            const x = (event.clientX / window.innerWidth - 0.5) * 2;
+            const y = (event.clientY / window.innerHeight - 0.5) * 2;
+            document.body.style.setProperty("--par-x", `${(-x * strength).toFixed(1)}px`);
+            document.body.style.setProperty("--par-y", `${(-y * strength).toFixed(1)}px`);
+            pending = false;
+        });
+    }, { passive: true });
 }

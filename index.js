@@ -58,6 +58,29 @@
         }, 5000);
     }
 
+    // --- Background parallax ------------------------------------------------
+    function setupParallax() {
+        const motionOK = window.matchMedia("(prefers-reduced-motion: reduce)").matches === false;
+        const finePointer = window.matchMedia("(pointer: fine)").matches;
+        if (!motionOK || !finePointer) return;
+
+        const strength = 14;
+        let pending = false;
+
+        window.addEventListener("mousemove", (event) => {
+            if (pending) return;
+            pending = true;
+            requestAnimationFrame(() => {
+                const x = (event.clientX / window.innerWidth - 0.5) * 2;
+                const y = (event.clientY / window.innerHeight - 0.5) * 2;
+                document.body.style.setProperty("--par-x", `${(-x * strength).toFixed(1)}px`);
+                document.body.style.setProperty("--par-y", `${(-y * strength).toFixed(1)}px`);
+                pending = false;
+            });
+        }, { passive: true });
+    }
+
     loadServerStatus();
     startSlideshow();
+    setupParallax();
 })();

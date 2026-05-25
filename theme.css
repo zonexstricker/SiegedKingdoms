@@ -1,0 +1,94 @@
+/* ============================================================
+   Sieged Kingdoms — design tokens
+   Single source of truth for the site's look & branding.
+   To rebrand, edit the values in the "BRAND COLOURS" block
+   below; everything else derives from them.
+   ============================================================ */
+
+:root {
+    /* ---------- Typography ---------- */
+    --font-body: "Bitter", Georgia, serif;
+    --font-mono: "Source Code Pro", ui-monospace, monospace;
+
+    /* ============================================================
+       BRAND COLOURS  — the knobs you actually turn to rebrand
+       ============================================================ */
+
+    /* Accent (links, highlights, buttons). RGB triple so every
+       translucent variant below derives from this one value. */
+    --accent-rgb: 126, 249, 255;
+    --accent-strong: #b6fbff;          /* brighter accent for hover/active */
+    --accent-visited: #5db7bb;
+
+    /* Danger / glossary-term highlight (warm red). */
+    --danger-rgb: 255, 140, 140;
+    --danger-strong: #ffb3b3;
+
+    /* Live server status */
+    --status-ok: #5ad17a;
+    --status-bad: #ff7a7a;
+
+    /* Rules severity tiers */
+    --minor: #fbf987;
+    --moderate: #faba82;
+    --severe: #fb7c7c;
+
+    /* Neutrals */
+    --page-bg: #0c0c0e;                /* solid fallback behind the image */
+    --ink: #eef0f2;                    /* primary text */
+    --ink-dim: #aeb2b9;                /* secondary text */
+    --ink-faint: #8c9097;              /* tertiary text (sub-nav) */
+    --white: #ffffff;
+
+    /* Raw component triples for translucent layers
+       (kept as "r, g, b" so they can take any alpha). */
+    --surface-rgb: 28, 28, 32;         /* frosted panel base */
+    --shadow-rgb: 0, 0, 0;
+    --hairline-rgb: 255, 255, 255;     /* light borders / dividers */
+    --veil-rgb: 10, 10, 14;            /* background-darkening veil */
+
+    /* ============================================================
+       DERIVED TOKENS — usually no need to touch these
+       ============================================================ */
+
+    /* Accent variants */
+    --accent: rgb(var(--accent-rgb));
+    --accent-soft: rgba(var(--accent-rgb), 0.10);
+    --accent-tint: rgba(var(--accent-rgb), 0.07);
+    --accent-tint-strong: rgba(var(--accent-rgb), 0.16);
+    --accent-border: rgba(var(--accent-rgb), 0.40);
+    --accent-glow: rgba(var(--accent-rgb), 0.22);
+
+    /* Danger variants */
+    --danger: rgb(var(--danger-rgb));
+    --danger-border: rgba(var(--danger-rgb), 0.35);
+
+    /* Surfaces */
+    --panel-bg: rgba(var(--surface-rgb), 0.55);
+    --surface-hover: rgba(60, 60, 66, 0.7);     /* button hover */
+    --pill-bg: rgba(55, 55, 60, 0.6);           /* link pills */
+    --drawer-bg: rgba(14, 14, 18, 0.78);        /* sidebar */
+    --inset-bg: rgba(12, 12, 14, 0.78);         /* dark inner blocks */
+    --inset-bg-soft: rgba(12, 12, 14, 0.55);    /* rule-list panel */
+    --inset-bg-strong: rgba(20, 20, 24, 0.95);  /* server card, popup */
+    --badge-bg: rgba(40, 40, 46, 0.9);          /* numbered rule badge */
+    --th-bg: rgba(18, 18, 22, 0.9);             /* table header */
+    --row-stripe: rgba(var(--hairline-rgb), 0.03);
+
+    /* Borders / hairlines */
+    --panel-border: rgba(var(--hairline-rgb), 0.10);
+    --panel-border-strong: rgba(var(--hairline-rgb), 0.16);
+    --panel-border-faint: rgba(var(--hairline-rgb), 0.07);
+    --hairline-soft: rgba(var(--hairline-rgb), 0.08);
+
+    /* Veil / backdrop / shadow */
+    --veil-top: rgba(var(--veil-rgb), 0.30);
+    --veil-bottom: rgba(var(--veil-rgb), 0.55);
+    --backdrop: rgba(var(--shadow-rgb), 0.5);
+    --panel-shadow: 0 14px 44px rgba(var(--shadow-rgb), 0.45);
+
+    /* Effects & metrics */
+    --panel-blur: 16px;
+    --panel-radius: 16px;
+    --drawer-width: 280px;
+}
