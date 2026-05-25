@@ -146,8 +146,7 @@
         card.setAttribute("role", "dialog");
         card.setAttribute("aria-label", "Motion access");
         card.innerHTML =
-            "<p>This site can use your device’s motion sensors purely for a subtle parallax " +
-            "background effect — nothing else.</p>" +
+            "<p>This site can use your phone’s gyroscope for a parallax effect.</p>" +
             '<div class="motion-actions">' +
             '<button type="button" class="motion-dismiss">No thanks</button>' +
             '<button type="button" class="motion-allow">Enable</button>' +
