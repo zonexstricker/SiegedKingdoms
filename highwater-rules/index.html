@@ -21,7 +21,7 @@
 
 <body>
     <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <button type="button" class="closebtn" aria-label="Close menu">&times;</button>
         <ul>
             <li><a href="#top">Go To Top</a></li>
             <li><a href="#introduction">Introduction</a></li>
@@ -30,7 +30,7 @@
     </div>
 
     <div id="main">
-        <button class="openbtn" onclick="openNav()">&#9776;</button>
+        <button type="button" class="openbtn" aria-label="Open menu">&#9776;</button>
     </div>
 
     <div class="main-content">
@@ -53,7 +53,7 @@
 
         <section id="general-rules">
             <h2>Warning System & General Rules</h2>
-            <div style="overflow-y: auto" ;>
+            <div class="table-wrap">
                 <table>
                     <thead>
                         <tr>

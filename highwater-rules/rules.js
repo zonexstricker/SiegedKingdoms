@@ -1,3 +1,5 @@
+// Sieged Kingdoms — rules page behaviour
+
 const glossary = {
     "Anarchy": "A society without a set government.",
     "Collectivism": "A political theory associated with communism, meaning people should prioritize society's good over the individual's welfare.",
@@ -21,40 +23,84 @@ const glossary = {
     "Doxxing": "The act of publishing private documents about an individual, such as their home address, phone number or their close families' details."
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    const popup = document.getElementById('popup');
-
-    document.body.addEventListener('click', (e) => {
-        if (e.target.classList.contains('highlight')) {
-            const term = e.target.dataset.term;
-            const definition = glossary[term];
-            if (definition) {
-                const heading = document.createElement('strong');
-                heading.className = 'popup-term';
-                heading.textContent = term;
-                popup.replaceChildren(heading, document.createTextNode(definition));
-                popup.style.display = 'block';
-
-                const margin = 12;
-                const maxLeft = window.scrollX + document.documentElement.clientWidth - popup.offsetWidth - margin;
-                const maxTop = window.scrollY + document.documentElement.clientHeight - popup.offsetHeight - margin;
-                const left = Math.min(e.pageX + margin, maxLeft);
-                const top = Math.min(e.pageY + margin, maxTop);
-                popup.style.left = `${Math.max(margin, left)}px`;
-                popup.style.top = `${Math.max(margin, top)}px`;
-            }
-        } else {
-            popup.style.display = 'none';
-        }
-    });
+document.addEventListener("DOMContentLoaded", () => {
+    setupDrawer();
+    setupGlossary();
 });
 
-function openNav() {
-    document.getElementById("mySidebar").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
+// ---- Slide-in navigation drawer -------------------------------------------
+function setupDrawer() {
+    const sidebar = document.getElementById("mySidebar");
+    if (!sidebar) return;
+
+    const openBtn = document.querySelector(".openbtn");
+    const closeBtn = sidebar.querySelector(".closebtn");
+
+    const backdrop = document.createElement("div");
+    backdrop.className = "sidebar-backdrop";
+    document.body.appendChild(backdrop);
+
+    const open = () => {
+        sidebar.classList.add("open");
+        backdrop.classList.add("open");
+    };
+    const close = () => {
+        sidebar.classList.remove("open");
+        backdrop.classList.remove("open");
+    };
+
+    if (openBtn) openBtn.addEventListener("click", open);
+    if (closeBtn) closeBtn.addEventListener("click", close);
+    backdrop.addEventListener("click", close);
+
+    sidebar.querySelectorAll("ul a").forEach((link) => {
+        link.addEventListener("click", close);
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
+    });
 }
 
-function closeNav() {
-    document.getElementById("mySidebar").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
+// ---- Glossary term popup ---------------------------------------------------
+function setupGlossary() {
+    const popup = document.getElementById("popup");
+    if (!popup) return;
+
+    const hide = () => {
+        popup.style.display = "none";
+    };
+
+    document.body.addEventListener("click", (e) => {
+        const target = e.target;
+
+        if (!target.classList || !target.classList.contains("highlight")) {
+            hide();
+            return;
+        }
+
+        const term = target.dataset.term;
+        const definition = glossary[term];
+        if (!definition) {
+            hide();
+            return;
+        }
+
+        const heading = document.createElement("strong");
+        heading.className = "popup-term";
+        heading.textContent = term;
+        popup.replaceChildren(heading, document.createTextNode(definition));
+        popup.style.display = "block";
+
+        // keep the popup inside the viewport
+        const margin = 12;
+        const maxLeft = window.scrollX + document.documentElement.clientWidth - popup.offsetWidth - margin;
+        const maxTop = window.scrollY + document.documentElement.clientHeight - popup.offsetHeight - margin;
+        popup.style.left = `${Math.max(margin, Math.min(e.pageX + margin, maxLeft))}px`;
+        popup.style.top = `${Math.max(margin, Math.min(e.pageY + margin, maxTop))}px`;
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") hide();
+    });
 }
