@@ -81,9 +81,9 @@
     --panel-border-faint: rgba(var(--hairline-rgb), 0.07);
     --hairline-soft: rgba(var(--hairline-rgb), 0.08);
 
-    /* Veil / backdrop / shadow */
-    --veil-top: rgba(var(--veil-rgb), 0.30);
-    --veil-bottom: rgba(var(--veil-rgb), 0.55);
+    /* Veil / backdrop / shadow — lower the alpha for a brighter background */
+    --veil-top: rgba(var(--veil-rgb), 0.12);
+    --veil-bottom: rgba(var(--veil-rgb), 0.28);
     --backdrop: rgba(var(--shadow-rgb), 0.5);
     --panel-shadow: 0 14px 44px rgba(var(--shadow-rgb), 0.45);
 
