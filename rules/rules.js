@@ -29,10 +29,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const term = e.target.dataset.term;
             const definition = glossary[term];
             if (definition) {
-                popup.innerText = definition;
+                const heading = document.createElement('strong');
+                heading.className = 'popup-term';
+                heading.textContent = term;
+                popup.replaceChildren(heading, document.createTextNode(definition));
                 popup.style.display = 'block';
-                popup.style.top = `${e.pageY + 10}px`;
-                popup.style.left = `${e.pageX + 10}px`;
+
+                const margin = 12;
+                const maxLeft = window.scrollX + document.documentElement.clientWidth - popup.offsetWidth - margin;
+                const maxTop = window.scrollY + document.documentElement.clientHeight - popup.offsetHeight - margin;
+                const left = Math.min(e.pageX + margin, maxLeft);
+                const top = Math.min(e.pageY + margin, maxTop);
+                popup.style.left = `${Math.max(margin, left)}px`;
+                popup.style.top = `${Math.max(margin, top)}px`;
             }
         } else {
             popup.style.display = 'none';

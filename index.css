@@ -8,8 +8,8 @@ body {
     background: url('images/background.png') no-repeat center center fixed;
     background-size: cover;
     color: white;
-    min-height: 100vh; /* Allow body height to expand if needed */
-    overflow-y: auto;  /* Enable vertical scrolling */
+    min-height: 100vh;
+    overflow-y: auto;
     justify-content: center;
     align-items: flex-start;
 }
@@ -36,7 +36,6 @@ a:active {
 .container {
     display: grid;
     grid-template-columns: 2fr 3fr 2fr;
-    /* Adjusted for more space for each column */
     gap: 20px;
     max-width: 1200px;
     width: 100%;
@@ -47,9 +46,9 @@ a:active {
 .column {
     background: rgba(39, 39, 39, 0.742);
     backdrop-filter: blur(10px);
-    border: 1px solid #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
     padding: 20px;
     text-align: center;
     display: flex;
@@ -60,23 +59,21 @@ a:active {
 @media (max-width: 768px) {
     .container {
         grid-template-columns: 1fr;
-        /* Stacks columns vertically on smaller screens */
     }
 
     body {
-        overflow: auto;  /* Ensure overflow is handled on mobile */
+        overflow: auto;
     }
 
     .column:nth-child(1) {
-        order: 3; /* Move the first column to the last */
+        order: 3;
     }
     .column:nth-child(2) {
-        order: 1; /* Keep the second column as the first */
+        order: 1;
     }
     .column:nth-child(3) {
-        order: 2; /* Move the third column to the middle */
+        order: 2;
     }
-
 }
 
 .links-container {
@@ -95,23 +92,27 @@ a:active {
 }
 
 .links-list li {
-    margin: 15px 0;
+    margin: 10px 0;
 }
 
 .links-list a {
     text-decoration: none;
     font-size: 18px;
-    background-color: #414141;
+    background-color: rgba(55, 55, 55, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     padding: 10px 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     white-space: nowrap;
+    display: block;
 }
 
 .links-list a:hover {
-    background-color: #007bff;
-    color: #fff;
+    background-color: rgba(126, 249, 255, 0.08);
+    color: rgb(126, 249, 255);
+    border-color: rgba(126, 249, 255, 0.28);
+    text-decoration: none;
     transform: translateY(-2px);
 }
 
@@ -125,82 +126,87 @@ a:active {
     background-color: #111;
     border-radius: 10px;
     overflow-y: auto;
-    padding: 10px;
+    padding: 12px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .online {
-    color: green;
+    color: #4caf50;
     font-weight: bold;
-  }
-  .offline {
-    color: red;
+}
+.offline {
+    color: #ef5350;
     font-weight: bold;
-  }
+}
 
-  .server-info {
+.server-info {
     display: flex;
     align-items: center;
-    border: 1px solid #aaa;
+    border: 1px solid rgba(255, 255, 255, 0.15);
     padding: 10px;
     border-radius: 5px;
-    width: 300px;
-    background-color: #2e2e2e;
+    width: auto;
+    max-width: 360px;
+    margin: 0 auto;
+    background-color: #1e1e1e;
     color: white;
-  }
+}
 
-  .server-logo {
+.server-logo {
     margin-right: 10px;
-  }
+}
 
-  .server-logo .logo {
+.server-logo .logo {
     width: 40px;
     height: 40px;
     border-radius: 10%;
-  }
+}
 
-  .server-details {
+.server-details {
     flex: 1;
-  }
+    text-align: left;
+}
 
-  .server-name {
+.server-name {
     margin: 0;
     font-size: 16px;
     font-weight: bold;
-  }
+}
 
-  .server-status {
+.server-status {
     margin: 5px 0;
     font-size: 14px;
-  }
+}
 
-  .server-status .online {
-    color: green;
-  }
+.server-status .online {
+    color: #4caf50;
+}
 
-  .server-status .offline {
-    color: red;
-  }
+.server-status .offline {
+    color: #ef5350;
+}
 
-  .player-count {
+.player-count {
     margin: 0;
     font-size: 14px;
-  }
+}
 
-  @media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
     .server-info {
-      width: auto;
+        max-width: 100%;
     }
-  }
+}
 
-  .photo-album {
+.photo-album {
     position: relative;
     width: 100%;
     max-width: 500px;
     height: 300px;
     overflow: hidden;
-    border: 2px solid #333;
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .photo-album img {
